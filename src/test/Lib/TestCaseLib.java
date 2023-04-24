@@ -21,6 +21,13 @@ import org.openqa.selenium.edge.EdgeDriver;
 
 public class TestCaseLib {
 
+    /**
+     * This function write a String into a file
+     *
+     * @param filePath File path were the text file should be saved.
+     * @param textToWrite Text to write in the file.
+     *
+     */
     public static void writeToFile(String filePath, String textToWrite) {
         try {
             FileWriter fileWriter = new FileWriter(filePath);
@@ -32,6 +39,15 @@ public class TestCaseLib {
         }
     }
 
+
+    /**
+     * This function get the text from a shadow dom element
+     *
+     * @param driver Webdriver to procede the automated test
+     * @param JsPath JavaScript path of the element pretended
+     * @return Text from the shadow dom web element
+     *
+     */
     public static String getTextFromElement(WebDriver driver, String JsPath) throws InterruptedException {
 
         WebElement getTextElement = null;
@@ -39,11 +55,20 @@ public class TestCaseLib {
 
         while(getTextElement == null) {
             getTextElement = (WebElement) js.executeScript(JsPath);
-            Thread.sleep(2000);
+            Thread.sleep(3000);
         }
         return getTextElement.getText();
     }
 
+
+    /**
+     * This function select an option from a Select list
+     *
+     * @param driver Webdriver to procede the automated test
+     * @param JsPath JavaScript path of the element pretended
+     * @param optionName Option Name that the user wants to select
+     *
+     */
     public static void selectOptionFromSelectList(WebDriver driver, String JsPath, String optionName) throws InterruptedException {
         WebElement OrderOption = null;
         JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -52,18 +77,18 @@ public class TestCaseLib {
             OrderOption = (WebElement) js.executeScript(JsPath);
             Select select = new Select(OrderOption);
             select.selectByVisibleText(optionName);
-            Thread.sleep(2000);
+            Thread.sleep(3000);
         }
     }
 
-
-    public static int removeAndConvertPrice(String priceTag, String charsToRemove) {
-        String priceWithoutChars = priceTag.replaceAll(charsToRemove, "");
-        return Integer.parseInt(priceWithoutChars);
-    }
-
-
-    public static void hoverOverElement(WebDriver driver, String JsPath) throws InterruptedException {
+    /**
+     * This function is used to hover over a specific shadow dom element
+     *
+     * @param driver Webdriver to procede the automated test
+     * @param JsPath JavaScript path of the element pretended
+     *
+     */
+    public static void hoverOverElement(WebDriver driver,String JsPath) throws InterruptedException {
 
         WebElement classAhover = null;
         JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -72,22 +97,32 @@ public class TestCaseLib {
             classAhover = (WebElement) js.executeScript(JsPath);
             Actions actions = new Actions(driver);
             actions.moveToElement(classAhover).perform();
-            Thread.sleep(2000);
+            Thread.sleep(3000);
         }
     }
 
-    public static void openwebsite(String url,WebDriver driver){
+    /**
+     * This function is used to open a specific website
+     *
+     * @param driver Webdriver to procede the automated test
+     * @param url url of website that is pretended to be opened
+     *
+     */
+
+    public static void openwebsite(WebDriver driver, String url){
         driver.manage().window().maximize();
         driver.get(url);
 
     }
 
-    public static WebDriver driver(){
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*");
-        ChromeDriver driver = new ChromeDriver(options);
-                return driver;
-    }
+    /**
+     * This function clicks in a specific shadow dom element
+     *
+     * @param driver Webdriver to procede the automated test
+     * @param JSpath the url from the site that is pretended to be opened
+     *
+     */
+    //
     public static void clickShadowRootElement(String JSpath, WebDriver driver) throws InterruptedException {
         WebElement shadowRoot = null;
         JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -95,7 +130,7 @@ public class TestCaseLib {
         while(shadowRoot == null) {
             shadowRoot = (WebElement) js.executeScript(JSpath);
             js.executeScript("window.scrollBy(0,200)", "");
-            Thread.sleep(1000);
+            Thread.sleep(3000);
         }
         shadowRoot.click();
     };

@@ -1,11 +1,9 @@
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -31,11 +29,14 @@ public class ExpensiveAndCheapestClassAModelWithChrome {
     @Test
     void TestSteps() throws InterruptedException, IOException {
 
-        WebDriver driver = TestCaseLib.driver();
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+
         /// Test Step 1 - Open webSite
         System.out.println("Test Step 1 - Open webSite ");
-        TestCaseLib.openwebsite(site,driver);
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+        ChromeDriver driver = new ChromeDriver(options);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        TestCaseLib.openwebsite(driver,site);
         System.out.println("Test Step 1 - Passed ");
 
         /// Test Step 2 - Click In Agree Terms Button
@@ -56,7 +57,7 @@ public class ExpensiveAndCheapestClassAModelWithChrome {
 
         ///Test Step 5 - Click in dropdown menu "Fuel Type" and select "diesel"
         System.out.println("Test Step 5 - Click in dropdown menu 'Fuel Type' and select 'diesel'");
-        Thread.sleep(2000);
+       Thread.sleep(2000);
         js.executeScript("window.scrollBy(0,1000)", "");
         TestCaseLib.clickShadowRootElement(fueltypeButton,driver);
         TestCaseLib.clickShadowRootElement(dieselcheckbox,driver);
@@ -84,14 +85,12 @@ public class ExpensiveAndCheapestClassAModelWithChrome {
 
 
         ///Test Step 9 - Save the lowest and the highest price in a txt file
-        System.out.println("Test Step 8 - Order the car configuration from the highest to lowest and save the value of the lowest price");
+        System.out.println("Test Step 9 - Save the lowest and the highest price in a txt file");
         String textToFileWrite = "The lowest price for a Class A is: " + LowestPrice + "\nThe Highest price for a Class A is " + HighestPrice + "\nInfo from Google Chrome Browser";
         TestCaseLib.writeToFile("C:\\MBioChallenge\\LowestHighestTCwithGoogleChrome.txt",textToFileWrite);
-        System.out.println("Test Step 8 - Passed ");
+        System.out.println("Test Step 9 - Passed ");
 
         System.out.println("Test Case passed!");
-
-        Thread.sleep(5000);
 
         driver.quit();
     }

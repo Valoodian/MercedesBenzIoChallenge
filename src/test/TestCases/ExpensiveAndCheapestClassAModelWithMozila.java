@@ -30,7 +30,7 @@ public class ExpensiveAndCheapestClassAModelWithMozila {
 
         /// Test Step 1 - Open webSite
         System.out.println("Test Step 1 - Open webSite ");
-        TestCaseLib.openwebsite(site,driver);
+        TestCaseLib.openwebsite(driver,site);
         System.out.println("Test Step 1 - Passed ");
 
         /// Test Step 2 - Click In Agree Terms Button
@@ -52,16 +52,15 @@ public class ExpensiveAndCheapestClassAModelWithMozila {
         ///Test Step 5 - Click in dropdown menu "Fuel Type" and select "diesel"
         System.out.println("Test Step 5 - Click in dropdown menu 'Fuel Type' and select 'diesel'");
         Thread.sleep(2000);
-        js.executeScript("window.scrollBy(0,1000)", "");
+        js.executeScript("window.scrollBy(0,800)", "");
         TestCaseLib.clickShadowRootElement(fueltypeButton,driver);
         TestCaseLib.clickShadowRootElement(dieselcheckbox,driver);
         System.out.println("Test Step 5 - Passed ");
 
         ///Test Step 6 - Take PrintSCREEN
         System.out.println("Test Step 6 - Take PrintSCREEN of the results");
+        ///click in button to hide the "Fuel type" dropdown menu
         TestCaseLib.selectOptionFromSelectList(driver,orderOption," Price (highest first) ");
-        TestCaseLib.clickShadowRootElement("return document.querySelector(\"body > div.root.responsivegrid.owc-content-container > div > div > div > owcc-car-configurator\").shadowRoot.querySelector(\"#cc-app-container-main > div.cc-app-container__main-frame.cc-grid-container > div.cc-grid-container.ng-star-inserted > div > div:nth-child(2)\")",driver);
-        System.out.println("Test Step 5 - Passed ");
         File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(screenshot,new File("C:\\MBioChallenge\\AvailableDieselModelsWithMozila.png"));
         System.out.println("Test Step 6 - Passed ");
@@ -72,7 +71,7 @@ public class ExpensiveAndCheapestClassAModelWithMozila {
         String LowestPrice = TestCaseLib.getTextFromElement(driver,getPrice);
         System.out.println("Test Step 7 - Passed ");
 
-        ///Test Step 8 - Order the car configuration from the lowest to highest and save the value of the lowest price
+        ///Test Step 8 - Order the car configuration from the highest to lowest and save the value of the lowest price
         System.out.println("Test Step 8 - Order the car configuration from the highest to lowest and save the value of the lowest price");
         TestCaseLib.selectOptionFromSelectList(driver,orderOption," Price (highest first) ");
         String HighestPrice = TestCaseLib.getTextFromElement(driver,getPrice);
@@ -80,14 +79,10 @@ public class ExpensiveAndCheapestClassAModelWithMozila {
 
 
         ///Test Step 9 - Save the lowest and the highest price in a txt file
-        System.out.println("Test Step 8 - Order the car configuration from the highest to lowest and save the value of the lowest price");
+        System.out.println("Test Step 9 - Save the lowest and the highest price in a txt file");
         String textToFileWrite = "The lowest price for a Class A is: " + LowestPrice + "\nThe Highest price for a Class A is " + HighestPrice + "\nInfo from Mozila Firefox Browser";
         TestCaseLib.writeToFile("C:\\MBioChallenge\\LowestHighestTCwithMozilaFirefox.txt",textToFileWrite);
-        System.out.println("Test Step 8 - Passed ");
-
-        System.out.println("Test Case passed!");
-
-        Thread.sleep(5000);
+        System.out.println("Test Step 9 - Passed ");
 
         driver.quit();
     }
